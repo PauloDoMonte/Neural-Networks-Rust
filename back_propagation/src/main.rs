@@ -1,5 +1,4 @@
 extern crate rand;
-use rand::Rng;
 use std::iter::zip;
 
 // Definição da função de ativação sigmoidal
@@ -144,19 +143,19 @@ fn main() {
                 sp.push(sigmoid_prime(*z_value));
             }
             let layer = &layers[l];
-            let mut new_delta = vec![0.0; layer.neurons.len()];
-
+            let mut new_delta = vec![0.0; layers[l - 1].neurons.len()]; // Corrigido aqui
+        
             for (j, neuron) in layer.neurons.iter().enumerate() {
                 for (k, weight) in neuron.weights.iter().enumerate() {
                     new_delta[j] += weight * delta[k];
                 }
                 new_delta[j] *= sp[j];
             }
-
+        
             delta = new_delta;
             nabla_b.push(vec![0.0; delta.len()]);
             nabla_w.push(vec![vec![0.0; layers[l-1].neurons[0].weights.len()]; delta.len()]);
-
+        
             for (j, delta_j) in delta.iter().enumerate() {
                 for (k, activation) in activations[l-1].iter().enumerate() {
                     nabla_w[l][j][k] += delta_j * activation;
