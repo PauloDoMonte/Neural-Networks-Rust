@@ -43,6 +43,22 @@ fn main() {
                     bias: 0.5,
                     weights: vec![-0.1, 0.4],
                 },
+                Neuron {
+                    bias: 0.3,
+                    weights: vec![-0.2, 0.3],
+                },
+                Neuron {
+                    bias: 0.2,
+                    weights: vec![0.7, -0.3],
+                },
+                Neuron {
+                    bias: 0.5,
+                    weights: vec![-0.1, 0.4],
+                },
+                Neuron {
+                    bias: 0.3,
+                    weights: vec![-0.2, 0.3],
+                },
             ],
         },
         Layer {
@@ -50,10 +66,6 @@ fn main() {
                 Neuron {
                     bias: -0.3,
                     weights: vec![0.2, 0.4],
-                },
-                Neuron {
-                    bias: 0.4,
-                    weights: vec![0.6, -0.5],
                 },
             ],
         },
@@ -79,12 +91,15 @@ fn main() {
             outputs.push(a);
         }
 
+        // Clonar outputs para usar na próxima camada
+        let cloned_outputs = outputs.clone();
+
         // A saída desta camada se torna a entrada para a próxima
         inputs = outputs;
 
         // Imprimir saída intermediária (opcional)
         println!("Saída da camada {}:", i + 1);
-        for (j, output) in outputs.iter().enumerate() {
+        for (j, output) in cloned_outputs.iter().enumerate() {
             println!("Z{}_{}: {:.4}", i + 1, j + 1, output);
         }
     }
@@ -92,6 +107,6 @@ fn main() {
     // Resultado final (saída da rede neural)
     println!("Saída final da rede neural:");
     for (i, output) in inputs.iter().enumerate() {
-        println!("Z{}: {:.4}", layers.len(), i + 1, output);
+        println!("Z{}_{}: {:.4}", layers.len(), i + 1, output);
     }
 }
