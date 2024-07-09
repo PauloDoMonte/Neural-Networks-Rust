@@ -1,6 +1,5 @@
 extern crate rand;
 use rand::Rng;
-
 use std::iter::zip;
 
 // Definição da função de ativação sigmoidal
@@ -181,6 +180,21 @@ fn main() {
             let cost = cost_derivative(&inputs, &y).iter().map(|&x| x.powi(2)).sum::<f64>() / 2.0;
             println!("Epoch {}: Erro = {:.6}", epoch, cost);
         }
+    }
+
+    // Dados de entrada para a última camada (novamente)
+    let mut inputs = vec![x1, x2];
+
+    // Forward pass final
+    for layer in &layers {
+        let mut activation = vec![];
+
+        for neuron in &layer.neurons {
+            let z_value: f64 = neuron.bias + neuron.weights.iter().zip(&inputs).map(|(w, x)| w * x).sum::<f64>();
+            activation.push(sigmoid(z_value));
+        }
+
+        inputs = activation.clone();
     }
 
     // Resultado final (saída da rede neural)
